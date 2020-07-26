@@ -1,0 +1,1 @@
+[05-Jul-2020 05:16:29 UTC] PHP Warning:  mysqli_connect(): (HY000/1044): Access denied for user 'geoindon_inter'@'localhost' to database 'geoisndon_inter' in /home/geoindon/public_html/inter/Login/koneksi/koneksi.php on line 6
