@@ -223,21 +223,22 @@ echo getClientIP();
           <!-- /.col -->
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-dollar-sign"></i></span>
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fas fa-user"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Pendapatan</span>
+                <span class="info-box-text">Orang Yang Di Service</span>
                 <span class="info-box-number">
-
+                  <center>
                   <?php
                   include "../koneksi/koneksi.php";
-                  $sql = mysqli_query($con,"SELECT * FROM transaksi");
+                  $data = $_SESSION['id_user'];
+                  $sql = mysqli_query($con,"SELECT * FROM v_transaksi where id_user = '$data'");
                   while($r = mysqli_fetch_array($sql)) {
-                    $ttl += $r[total];
+                    $orang += $r[org];
                   }
-                  function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
-                  echo "Rp ".rp($ttl);
+                  echo $orang;
                   ?>
+                </center>
                 </span>
               </div>
               <!-- /.info-box-content -->
