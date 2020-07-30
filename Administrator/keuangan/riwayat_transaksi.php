@@ -182,13 +182,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">User Account</h1>
+            <h1 class="m-0 text-dark">Riwayat Transaksi</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Dashboard</li>
-              <li class="breadcrumb-item active">User Account</li>
+              <li class="breadcrumb-item active">Riwayat Transaksi</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -213,7 +213,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <td><a class='btn btn-info' href='/barber/Administrator/user/add_user.php'><i class='icon-trash icon-white'>Tambah User</i></a>
+                <td>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -231,22 +231,25 @@ echo "<table class='table table-striped table-bordered table-hover col-lg-12 col
         <thead style='text-align:center;'>
           <tr style='background:#e3e3e3; border:1px solid #cecece;'>
           <th>No</th>
-          <th>Nama Lengkap</th>
-          <th>Email</th>
-          <th>Level</th>
+          <th>Paket</th>
+          <th>Harga</th>
+          <th>Tanggal Dan Jam</th>
+          <th>Karyawan</th>
+          <th>Total</th>
           <th >Action</th></tr>
         </thead> ";
-
-  $tampil = mysqli_query($con,"SELECT * FROM user");
+function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
+  $tampil = mysqli_query($con,"SELECT * FROM transaksi");
     $no=1;
     while ($r=mysqli_fetch_array($tampil)){
-       echo "<tr style='text-align:center;'>
-                <td>$no</td>
-                <td>$r[nama_lengkap]</td>
-                <td>$r[email]</td>
-                <td>$r[level]</td>
-                <td><a class='btn btn-info' title='Detail Members' href=/barber/Administrator/user/detail.php?id=$r[id_user]><i class='icon-trash icon-white'>Detail</i></a>
-                  <a class='btn btn-danger' title='Delete Members' href=delete_user.php?id=$r[id_user]><i class='icon-trash icon-white'></i>Delete</a></center></td>
+       echo "<tr>
+                <td style='text-align:center;'>$no</td>
+                <td>$r[paket]</td>
+                <td>$r[harga]</td>
+                <td style='text-align:center;'>$r[tanggal_jam]</td>
+                <td style='text-align:center;'>$r[nama_lengkap]</td>
+                <td style='text-align:center;'>$r[total]</td>
+                <td style='text-align:center;'><a class='btn btn-info' title='Cetak' href=/barber/Administrator/keuangan/print.php?id=$r[id_transaksi]><i class='icon-trash icon-white'>Cetak</i></a></center></td>
              </tr>";
       $no++;
     }

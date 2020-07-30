@@ -132,6 +132,14 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="/barber/Administrator/keuangan/riwayat_transaksi.php" class="nav-link">
+              <i class="nav-icon fas fa-shopping-cart"></i>
+              <p>
+                Riwayat Transaksi
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="/barber/Administrator/inbox.php" class="nav-link">
               <i class="nav-icon  fas fa-address-card"></i>
               <p>

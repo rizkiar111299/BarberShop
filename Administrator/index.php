@@ -132,6 +132,14 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="/barber/Administrator/keuangan/riwayat_transaksi.php" class="nav-link">
+              <i class="nav-icon fas fa-shopping-cart"></i>
+              <p>
+                Riwayat Transaksi
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="/barber/Administrator/inbox.php" class="nav-link">
               <i class="nav-icon  fas fa-address-card"></i>
               <p>
@@ -199,9 +207,6 @@
               <div class="info-box-content">
                 <span class="info-box-text">CPU Traffic</span>
                 <span class="info-box-number">
-                  10
-                  <small>%</small>
-                </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -213,8 +218,13 @@
               <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Likes</span>
-                <span class="info-box-number">41,410</span>
+                <span class="info-box-text">Device</span>
+                <span class="info-box-number">
+                  <?
+                   $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+                  echo $hostname;
+                  ?>
+                </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -230,8 +240,33 @@
               <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Sales</span>
-                <span class="info-box-number">760</span>
+                <span class="info-box-text">IP Address</span>
+                <span class="info-box-number">
+<?php
+function getClientIP() {
+
+    if (isset($_SERVER)) {
+
+        if (isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
+            return $_SERVER["HTTP_X_FORWARDED_FOR"];
+
+        if (isset($_SERVER["HTTP_CLIENT_IP"]))
+            return $_SERVER["HTTP_CLIENT_IP"];
+
+        return $_SERVER["REMOTE_ADDR"];
+    }
+
+    if (getenv('HTTP_X_FORWARDED_FOR'))
+        return getenv('HTTP_X_FORWARDED_FOR');
+
+    if (getenv('HTTP_CLIENT_IP'))
+        return getenv('HTTP_CLIENT_IP');
+
+    return getenv('REMOTE_ADDR');
+}
+echo getClientIP();
+?>
+                </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -240,11 +275,20 @@
           <!-- /.col -->
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-dollar-sign"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">New Members</span>
-                <span class="info-box-number">2,000</span>
+                <span class="info-box-text">Pendapatan</span>
+                <span class="info-box-number">
+                  <?php
+                  $sql = mysqli_query($con,"SELECT * FROM transaksi");
+                  while($r = mysqli_fetch_array($sql)) {
+                    $ttl += $r['total'];
+                  }
+                  function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
+                  echo "Rp ".rp($ttl);
+                  ?>
+                </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -258,93 +302,33 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h5 class="card-title">Monthly Recap Report</h5>
+                <h5 class="card-title">Trafic Aktivitas</h5>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
-                  </button>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
-                      <i class="fas fa-wrench"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right" role="menu">
-                      <a href="#" class="dropdown-item">Action</a>
-                      <a href="#" class="dropdown-item">Another action</a>
-                      <a href="#" class="dropdown-item">Something else here</a>
-                      <a class="dropdown-divider"></a>
-                      <a href="#" class="dropdown-item">Separated link</a>
-                    </div>
-                  </div>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
                   </button>
                 </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="row">
-                  <div class="col-md-8">
+                  <div class="col-lg-12 col-md-8 col-sm-6">
                     <p class="text-center">
-                      <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
+                      <strong>Chart Bulanan</strong>
                     </p>
 
                     <div class="chart">
                       <!-- Sales Chart Canvas -->
-                      <canvas id="salesChart" height="180" style="height: 180px;"></canvas>
+                      <canvas id="salesChart" height="250"></canvas>
                     </div>
                     <!-- /.chart-responsive -->
                   </div>
                   <!-- /.col -->
-                  <div class="col-md-4">
-                    <p class="text-center">
-                      <strong>Goal Completion</strong>
-                    </p>
-
-                    <div class="progress-group">
-                      Add Products to Cart
-                      <span class="float-right"><b>160</b>/200</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-primary" style="width: 80%"></div>
-                      </div>
-                    </div>
-                    <!-- /.progress-group -->
-
-                    <div class="progress-group">
-                      Complete Purchase
-                      <span class="float-right"><b>310</b>/400</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-danger" style="width: 75%"></div>
-                      </div>
-                    </div>
-
-                    <!-- /.progress-group -->
-                    <div class="progress-group">
-                      <span class="progress-text">Visit Premium Page</span>
-                      <span class="float-right"><b>480</b>/800</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-success" style="width: 60%"></div>
-                      </div>
-                    </div>
-
-                    <!-- /.progress-group -->
-                    <div class="progress-group">
-                      Send Inquiries
-                      <span class="float-right"><b>250</b>/500</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-warning" style="width: 50%"></div>
-                      </div>
-                    </div>
-                    <!-- /.progress-group -->
                   </div>
                   <!-- /.col -->
                 </div>
                 <!-- /.row -->
-              </div>
-
-              <!-- /.card-body -->
-              <div class="card-footer text-center">
-                <a href="javascript:void(0)" class="uppercase">View All Products</a>
               </div>
               <!-- /.card-footer -->
             </div>
@@ -358,7 +342,6 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -371,7 +354,6 @@
   </footer>
 </div>
 <!-- ./wrapper -->
-
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
@@ -392,7 +374,7 @@
 <script src="plugins/jquery-mapael/jquery.mapael.min.js"></script>
 <script src="plugins/jquery-mapael/maps/usa_states.min.js"></script>
 <!-- ChartJS -->
-<script src="plugins/chart.js/Chart.min.js"></script>
+<script type="text/javascript" src="plugins/chart.js/Chart.min.js"></script>
 
 <!-- PAGE SCRIPTS -->
 <script src="dist/js/pages/dashboard2.js"></script>

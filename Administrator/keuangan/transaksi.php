@@ -132,6 +132,14 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="/barber/Administrator/keuangan/riwayat_transaksi.php" class="nav-link">
+              <i class="nav-icon fas fa-shopping-cart"></i>
+              <p>
+                Riwayat Transaksi
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="/barber/Administrator/inbox.php" class="nav-link">
               <i class="nav-icon  fas fa-address-card"></i>
               <p>
@@ -217,7 +225,7 @@
     <table>
       <tr>
         <td>
-    <form action="" method="get" name='pktget'>
+    <form action="" method="get" name='pktget' onsubmit="return checkform()">
         <fieldset class="form-group">  
         <label>Jumlah Paket</label>
         <input type='text' name='jp' class="form-control">   
@@ -228,7 +236,7 @@
       </tr>
       <tr>
         <td>
-    <form action="" method="POST">
+    <form action="" method="POST" onsubmit="return checkform()">
         <fieldset class="form-group">     
         <label>Paket</label>
         <?php
@@ -261,8 +269,31 @@
   </td>
 </tr>
 </table>
+<?php /***
+    <form action="" method="post" onsubmit="return checkform()">
+    <fieldset class="form-group">
+      <label>Uang Yang Di Terima</label>
+      <input type='text' name='uang' class="form-control">
+    </br>
+      <button type='submit' class='btn btn-primary' name='tmbuang'>Terima</button>
+    </fieldset>
+    </form>
+        <tr>
+          <td>
+            Di terima
+          </td>
+          <td>
+            <?php
+            if(isset($_POST['tmbuang'])){
+              $ung = $_POST['uang'];
+              echo $ung;
+            }
+            ?>
+          </td>
+        </tr> ***/
+?>
     <div style="margin-left: auto;">
-      <table class='table table-striped table-bordered table-hover col-lg-12 col-md-8 col-sm-6 col-xs-4'>
+      <table class='table table-striped table-bordered table-hover col-lg-12 col-md-10 col-sm-10 col-xs-6'>
         <thead>
           <tr>
             <th colspan="2">
@@ -303,6 +334,17 @@
           ?>
         </td>
         <tr>
+          <td>
+            <?php
+function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
+            echo "Total"
+            ?>
+          </td>
+          <td>
+            <?php echo " Rp ". rp($total); ?>
+          </td>
+        </tr>
+        <tr>
           <td colspan="2" style="text-align: center">
             <?php
             if(isset($_POST['tambah'])){
@@ -314,25 +356,34 @@
             ?>
           </td>
         </tr>
-        <tr>
-          <td colspan="2" style="text-align:center;">
-            <?php
-function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
-            echo "Total : Rp ". rp($total);
-
-            ?>
-          </td>
-        </tr>
       </table>
       <form action="aksi_bayar.php" method="POST">
-        <?php 
-        foreach ($isi as $key) {
+        <?php
+        foreach ($isi as $key => $value) {
         echo "
-        <input type='hidden' name='pket[]' value='$isi[$key]'>";
+        <input type='hidden' name='paket[]' value='$isi[$key]'>";
       }
+        foreach ($kry as $key => $value) {
         echo "
-        <input type='hidden' name='krywn[]' value='$kry[$key]'>
-        <input type='hidden' name='total' value='$total'>"
+        <input type='hidden' name='kry[]' value='$kry[$key]'>";
+      }
+        foreach($isi as $key => $val){
+          for($i=0;$i < count($isi[$key]); $i++){
+            if($isi[$key] == 'Potong Rambut'){
+              $harga = 15000;
+              echo "<input type='hidden' name='harga[]' value='$harga'>";
+            }
+            elseif($isi[$key] == 'Kerok Jengot'){
+              $harga = 5000;
+              echo "<input type='hidden' name='harga[]' value='$harga'>";
+            }
+            elseif($isi[$key] == 'Cat Rambut'){
+              $harga = 35000;
+              echo "<input type='hidden' name='harga[]' value='$harga'>";
+            }
+          }
+          }
+          echo "<input type='hidden' name='total' value='$total'>";
         ?>
             <center>
             </br>
