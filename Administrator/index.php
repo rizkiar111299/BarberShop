@@ -98,7 +98,7 @@
             <ul class="nav nav-treeview">
           <li class="dropdown-menum">
             <a href="/barber/Administrator/user/paket.php" class="nav-link">
-              <i class="nav-icon fas fa-box  "></i>
+              <i class="nav-icon fa fa-envelope"></i>
               <p>
                 Paket
               </p>
@@ -242,6 +242,7 @@
               <div class="info-box-content">
                 <span class="info-box-text">IP Address</span>
                 <span class="info-box-number">
+                  <!--
 <?php
 function getClientIP() {
 
@@ -266,6 +267,7 @@ function getClientIP() {
 }
 echo getClientIP();
 ?>
+-->
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -280,14 +282,17 @@ echo getClientIP();
               <div class="info-box-content">
                 <span class="info-box-text">Pendapatan</span>
                 <span class="info-box-number">
+                  <!--
                   <?php
+                  include "../koneksi/koneksi.php";
                   $sql = mysqli_query($con,"SELECT * FROM transaksi");
                   while($r = mysqli_fetch_array($sql)) {
-                    $ttl += $r['total'];
+                    $ttl += $r[total];
                   }
                   function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
                   echo "Rp ".rp($ttl);
                   ?>
+                -->
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -302,7 +307,7 @@ echo getClientIP();
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h5 class="card-title">Trafic Aktivitas</h5>
+                <h5 class="card-title">Pengumuman</h5>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -314,14 +319,17 @@ echo getClientIP();
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-12 col-md-8 col-sm-6">
-                    <p class="text-center">
-                      <strong>Chart Bulanan</strong>
+                    <p class="text-left">
+                      <strong>Aplikasi Kasir BarberShop <a href="https://github.com/rizkiar111299/BarberShop">V1.2</a></strong>
                     </p>
-
-                    <div class="chart">
-                      <!-- Sales Chart Canvas -->
-                      <canvas id="salesChart" height="250"></canvas>
-                    </div>
+                    <p><b>Feature :</b></p>
+                    <ul>
+                      <li> Tambah/Delete/Lihat paket </li>
+                      <li> Tambah/Delete/Lihat User </li>
+                      <li> Transaksi </li>
+                      <li> Cetak transaksi </li>
+                      <li> Riwayat Transaksi </li>
+                    </ul>
                     <!-- /.chart-responsive -->
                   </div>
                   <!-- /.col -->

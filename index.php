@@ -73,16 +73,6 @@
                         </div>
                         </fieldset>
                       <div class="form-group row">
-					  <!--
-                        <div class="col-md-6 col-12 text-center text-md-left">
-                          <fieldset>
-                            <input type="checkbox" name="remember" id="remember-me" value="1"  class="chk-remember">
-                            <label for="remember-me"> Biarkan tetap Masuk</label>
-                          </fieldset>
-                        </div>
-                        <div class="col-md-6 col-12 text-center text-md-right"><a href="#" id="forgot-pwd" class="card-link">Lupa Kata Sandi?</a></div>
-                      </div>
-					  -->
                       <button type="submit" class="btn btn-info btn-block"><i class="ft-unlock"></i><b>Masuk</b></button>
                     </form>
                   </div>
@@ -99,15 +89,6 @@
       </div>
     </div>
   </div>
-  <style>
-  .buy-now {
-    position: fixed;
-    bottom: 5%;
-    right: 2%;
-    z-index: 1051;
-}
-</style>
-
   <!-- /.content-wrapper -->
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -145,7 +126,6 @@
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 </body>
