@@ -58,7 +58,7 @@
           <a href="#" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> Account Setting
           </a>
-          <a href="http://localhost/barber//Administrator/logout.php" class="dropdown-item">
+          <a href="http://localhost/barber/Administrator/logout.php" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> Logout
           </a>
         </div>

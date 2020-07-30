@@ -66,7 +66,7 @@
                         <fieldset class="form-group position-relative has-icon-left">                      
                         <select class="form-control" id="level" name="level">
                           <option>admin</option>
-                          <option>member</option>
+                          <option>karyawan</option>
                         </select>
                         <div class="form-control-position">
                           <i class="la la-key"></i>
