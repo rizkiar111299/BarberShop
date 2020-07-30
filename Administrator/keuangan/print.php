@@ -25,15 +25,16 @@ window.print();
 </script>
 <?php
 include "../../koneksi/koneksi.php";
+include "../../koneksi/session_admin.php";
 $id = mysqli_real_escape_string($con,$_GET['id']);
 $sql=mysqli_query($con,"SELECT * FROM transaksi WHERE id_transaksi='$id'");
 $r=mysqli_fetch_array($sql);
 	echo "
 		 <center>
-		  <table border='0'>
-		 <p><b>Struk Pembayaran</b></p>
-		 <p>BARBERSHOP ABADI II</p>
-		 $r[tanggal_jam]		  	
+		 <table>
+		 <caption><strong>Struk Pembayaran</br>
+		 	BARBERSHOP ABADI II</strong></br>
+		 	$r[tanggal_jam] </caption>		  	
 		  	<th>
 		  	Paket
 		  	</th>
@@ -56,12 +57,12 @@ $r=mysqli_fetch_array($sql);
 			$r[total]
 			</td>
 			</tr>
-			<td colspan='2'>
+			<td colspan='2' style=text-align:center;>
 			Karyawan : $r[nama_lengkap]
 			</td>
 			</tr>
 		</table>
-					<p>Jl.Haur pancuh, no 125, lebak gede, kota bandung</p>
+					<caption>Jl.Haur pancuh, no 125, lebak gede, kota bandung</caption>
 	</center>";
 
 ?>

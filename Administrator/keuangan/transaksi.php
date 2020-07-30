@@ -259,10 +259,17 @@
         <fieldset class="form-group">
         <label>Karyawan</label>
         <select class="form-control" name="kry[]">
-        <option>Rizki Alam Ramdhani</option>
-        <option>ucok Boy yes</option>
-        <option>Dik coy bos</option>
-        </select>        </fieldset>
+ <?php 
+  include "../../koneksi/koneksi.php";
+  $tampil = mysqli_query($con,"SELECT * FROM user where level='karyawan'");
+  while ($r = mysqli_fetch_array($tampil)){
+ ?>
+   <option><?php echo "$r[nama_lengkap]"; ?></option> 
+ <?php
+  }
+ ?>
+        </select>        
+        </fieldset>
           <button type='submit' class='btn btn-primary' name='tambah'>Tambah</button>
       </fieldset>
     </form>
@@ -371,19 +378,20 @@ function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '
           for($i=0;$i < count($isi[$key]); $i++){
             if($isi[$key] == 'Potong Rambut'){
               $harga = 15000;
-              echo "<input type='hidden' name='harga[]' value='$harga'>";
+              echo "<input type='hidden' name='harga[]' value='";echo "Rp ".rp($harga);echo"'>";
             }
             elseif($isi[$key] == 'Kerok Jengot'){
               $harga = 5000;
-              echo "<input type='hidden' name='harga[]' value='$harga'>";
+              echo "<input type='hidden' name='harga[]' value='";echo "Rp ".rp($harga);echo"'>";
             }
             elseif($isi[$key] == 'Cat Rambut'){
               $harga = 35000;
-              echo "<input type='hidden' name='harga[]' value='$harga'>";
+              echo "<input type='hidden' name='harga[]' value='";echo "Rp ".rp($harga);echo"'>";
+
             }
           }
           }
-          echo "<input type='hidden' name='total' value='$total'>";
+          echo "<input type='hidden' name='total' value='";echo "Rp ".rp($total);echo"'>";
         ?>
             <center>
             </br>

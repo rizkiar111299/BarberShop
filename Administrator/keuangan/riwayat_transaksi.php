@@ -238,7 +238,6 @@ echo "<table class='table table-striped table-bordered table-hover col-lg-12 col
           <th>Total</th>
           <th >Action</th></tr>
         </thead> ";
-function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
   $tampil = mysqli_query($con,"SELECT * FROM transaksi");
     $no=1;
     while ($r=mysqli_fetch_array($tampil)){
