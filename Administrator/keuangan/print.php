@@ -53,8 +53,11 @@ $r=mysqli_fetch_array($sql);
 			<td>
 			Total
 			</td>
-			<td>
-			$r[total]
+			<td>";
+			function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
+			$tl = $r['total'];
+			 echo "Rp ".rp($tl); 
+			 echo "
 			</td>
 			</tr>
 			<td colspan='2' style=text-align:center;>

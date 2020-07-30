@@ -74,7 +74,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
+    <a href="http://localhost/barber/Administrator/" class="brand-link">
       <img src="../../dist/img/img.svg" alt="Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light" ><b>BARBERSHOP ABADI II</b></span>
@@ -240,14 +240,16 @@ echo "<table class='table table-striped table-bordered table-hover col-lg-12 col
         </thead> ";
   $tampil = mysqli_query($con,"SELECT * FROM transaksi");
     $no=1;
+  function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
     while ($r=mysqli_fetch_array($tampil)){
+      $tl = $r['total'];
        echo "<tr>
                 <td style='text-align:center;'>$no</td>
                 <td>$r[paket]</td>
                 <td>$r[harga]</td>
                 <td style='text-align:center;'>$r[tanggal_jam]</td>
                 <td style='text-align:center;'>$r[nama_lengkap]</td>
-                <td style='text-align:center;'>$r[total]</td>
+                <td style='text-align:center;'>"; echo rp($tl); echo"</td>
                 <td style='text-align:center;'><a class='btn btn-info' title='Cetak' href=/barber/Administrator/keuangan/print.php?id=$r[id_transaksi]><i class='icon-trash icon-white'>Cetak</i></a></center></td>
              </tr>";
       $no++;

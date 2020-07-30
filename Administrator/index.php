@@ -282,7 +282,7 @@ echo getClientIP();
               <div class="info-box-content">
                 <span class="info-box-text">Pendapatan</span>
                 <span class="info-box-number">
-                  <!--
+
                   <?php
                   include "../koneksi/koneksi.php";
                   $sql = mysqli_query($con,"SELECT * FROM transaksi");
@@ -292,7 +292,6 @@ echo getClientIP();
                   function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
                   echo "Rp ".rp($ttl);
                   ?>
-                -->
                 </span>
               </div>
               <!-- /.info-box-content -->

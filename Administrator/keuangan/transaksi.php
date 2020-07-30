@@ -74,7 +74,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
+    <a href="http://localhost/barber/Administrator/" class="brand-link">
       <img src="../../dist/img/img.svg" alt="Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light" ><b>BARBERSHOP ABADI II</b></span>
@@ -391,7 +391,7 @@ function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '
             }
           }
           }
-          echo "<input type='hidden' name='total' value='";echo "Rp ".rp($total);echo"'>";
+          echo "<input type='hidden' name='total' value='";echo $total;echo"'>";
         ?>
             <center>
             </br>
