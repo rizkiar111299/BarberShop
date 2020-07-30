@@ -96,10 +96,10 @@
             </a>
             <ul class="nav nav-treeview">
           <li class="dropdown-menum">
-            <a href="/barber/Administrator/inbox.php" class="nav-link">
-              <i class="nav-icon fa fa-envelope"></i>
+            <a href="/barber/Administrator/user/paket.php" class="nav-link">
+              <i class="nav-icon fas fa-box  "></i>
               <p>
-                Kirim Pesan
+                Paket
               </p>
             </a>
           </li>
