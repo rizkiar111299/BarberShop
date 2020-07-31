@@ -391,6 +391,10 @@ function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '
             }
           }
           }
+          include "../../koneksi/koneksi.php";
+          $sql = mysqli_query($con, "SELECT * FROM user where nama_lengkap='$kry[0]'");
+          $r = mysqli_fetch_array($sql);
+          echo "<input type='hidden' name='id_user' value='$r[id_user]'>";
           echo "<input type='hidden' name='total' value='";echo $total;echo"'>";
         ?>
             <center>
