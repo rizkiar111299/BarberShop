@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 30 Jul 2020 pada 22.34
+-- Generation Time: 27 Agu 2020 pada 20.59
 -- Versi Server: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -28,17 +28,43 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `paket` (
 `id_paket` int(11) NOT NULL,
-  `paket` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `paket` varchar(255) NOT NULL,
+  `harga` varchar(255) NOT NULL,
+  `type` varchar(15) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `paket`
 --
 
-INSERT INTO `paket` (`id_paket`, `paket`) VALUES
-(1, 'Potong Rambut'),
-(2, 'Kerok jenggot'),
-(3, 'Cat Rambut');
+INSERT INTO `paket` (`id_paket`, `paket`, `harga`, `type`) VALUES
+(1, 'Potong Rambut', '15000', 'dewasa'),
+(2, 'Kerok Kumis', '5000', ''),
+(3, 'Cat Rambut', '35000', ''),
+(4, 'Potong Rambut', '10000', 'anak-anak'),
+(8, 'Krimbat', '45000', '');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pengeluaran`
+--
+
+CREATE TABLE IF NOT EXISTS `pengeluaran` (
+`id_pengeluaran` int(5) NOT NULL,
+  `tanggal` varchar(25) NOT NULL,
+  `keterangan` text NOT NULL,
+  `jml_pengeluaran` int(12) NOT NULL,
+  `total` varchar(255) NOT NULL,
+  `pendapatan` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `pengeluaran`
+--
+
+INSERT INTO `pengeluaran` (`id_pengeluaran`, `tanggal`, `keterangan`, `jml_pengeluaran`, `total`, `pendapatan`) VALUES
+(19, '2020-08-28', 'test', 200000, '345000', '145000');
 
 -- --------------------------------------------------------
 
@@ -64,23 +90,35 @@ CREATE TABLE IF NOT EXISTS `pesan` (
 CREATE TABLE IF NOT EXISTS `transaksi` (
 `id_transaksi` int(12) NOT NULL,
   `id_user` int(5) NOT NULL,
+  `id_pengeluaran` int(12) NOT NULL,
   `paket` text NOT NULL,
   `harga` varchar(255) NOT NULL,
-  `tanggal_jam` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tanggal` varchar(255) NOT NULL,
+  `jam` time NOT NULL,
   `nama_lengkap` varchar(255) NOT NULL,
+  `atas_nama` varchar(255) NOT NULL,
+  `dewasa` varchar(15) NOT NULL,
+  `anak` varchar(15) NOT NULL,
+  `bayar` varchar(255) NOT NULL,
   `total` varchar(255) NOT NULL,
-  `org` int(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+  `kembalian` varchar(255) NOT NULL,
+  `org` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `transaksi`
 --
 
-INSERT INTO `transaksi` (`id_transaksi`, `id_user`, `paket`, `harga`, `tanggal_jam`, `nama_lengkap`, `total`, `org`) VALUES
-(39, 5, 'Potong Rambut</br>Kerok Jengot', 'Rp 15.000</br>Rp 5.000', '2020-07-31 03:13:52', 'ucok Disini', '20000', 2),
-(40, 5, 'Potong Rambut</br>Cat Rambut</br>Kerok Jengot', 'Rp 15.000</br>Rp 35.000</br>Rp 5.000', '2020-07-31 03:14:05', 'ucok Disini', '55000', 3),
-(41, 5, 'Potong Rambut</br>Kerok Jengot</br>Cat Rambut</br>Kerok Jengot', 'Rp 15.000</br>Rp 5.000</br>Rp 35.000</br>Rp 5.000', '2020-07-31 03:14:23', 'ucok Disini', '60000', 4),
-(42, 6, 'Potong Rambut</br>Cat Rambut</br>Kerok Jengot</br>Cat Rambut', 'Rp 15.000</br>Rp 35.000</br>Rp 5.000</br>Rp 35.000', '2020-07-31 03:14:39', 'Otong', '90000', 4);
+INSERT INTO `transaksi` (`id_transaksi`, `id_user`, `id_pengeluaran`, `paket`, `harga`, `tanggal`, `jam`, `nama_lengkap`, `atas_nama`, `dewasa`, `anak`, `bayar`, `total`, `kembalian`, `org`, `status`) VALUES
+(127, 5, 0, 'Potong Rambut </br> Kerok Kumis</br>Cat Rambut', '85000', '2020-08-27', '12:01:37', 'ucok Disini', 'Rizki Alam Ramdhani', '1', '3', ' 100000', '85000', '15000', '4', 'success'),
+(128, 5, 0, 'Potong Rambut </br> Kerok Kumis', '50000', '2020-08-27', '12:04:34', 'ucok Disini', 'darwin', '3', '', ' 70000', '50000', '20000', '3', 'success'),
+(129, 5, 0, 'Potong Rambut </br> ', '20000', '2020-08-27', '12:05:28', 'ucok Disini', 'dadang', '', '2', '20000', '20000', '0', '2', 'success'),
+(130, 6, 0, 'Potong Rambut </br> ', '45000', '2020-08-27', '12:07:10', 'otong', 'Rizki Alam Ramdhani', '3', '', ' 50000', '45000', '5000', '3', 'success'),
+(131, 6, 0, 'Potong Rambut </br> Cat Rambut', '50000', '2020-08-27', '12:07:32', 'otong', 'dadang', '1', '', ' 50000', '50000', '0', '1', 'success'),
+(132, 5, 0, 'Potong Rambut </br> ', '30000', '2020-08-27', '12:08:13', 'ucok Disini', 'darwin', '', '3', ' 70000', '30000', '40000', '3', 'success'),
+(133, 6, 0, 'Potong Rambut </br> ', '30000', '2020-08-27', '12:10:03', 'otong', 'Adi Santoso', '2', '', ' 50000', '30000', '20000', '2', 'success'),
+(134, 5, 0, 'Potong Rambut </br> Cat Rambut', '35000', '2020-08-27', '23:23:17', 'ucok Disini', 'Rizki Alam Ramdhani', '', '', '', '35000', '', '0', '');
 
 -- --------------------------------------------------------
 
@@ -103,29 +141,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id_user`, `nama_lengkap`, `username`, `email`, `password`, `no_hp`, `level`) VALUES
-(4, 'Rizki Alam Ramdhani', 'ghostroot', 'ghostroot200@gmail.com', '9562eaf3da1d92ab31445495dfc4ccdc', '087312341231', 'admin'),
+(1, 'administrator', 'admin', 'admin@localhost.com', '21232f297a57a5a743894a0e4a801fc3', '', 'admin'),
 (5, 'ucok Disini', 'ucok', 'ucok@gmail.com', '2fc4bfee344471c68b724856b9b6f13d', '', 'karyawan'),
-(6, 'Otong', 'Otong', 'otong@gmail.com', '83beaa151b5f6eeb703a8ad8c9d82999', '', 'karyawan');
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `v_transaksi`
---
-CREATE TABLE IF NOT EXISTS `v_transaksi` (
-`id_user` int(5)
-,`nama_lengkap` varchar(255)
-,`id_transaksi` int(12)
-,`org` int(255)
-);
--- --------------------------------------------------------
-
---
--- Struktur untuk view `v_transaksi`
---
-DROP TABLE IF EXISTS `v_transaksi`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_transaksi` AS select `user`.`id_user` AS `id_user`,`user`.`nama_lengkap` AS `nama_lengkap`,`transaksi`.`id_transaksi` AS `id_transaksi`,`transaksi`.`org` AS `org` from (`user` join `transaksi`) where (`user`.`id_user` = `transaksi`.`id_user`);
+(6, 'otong', 'otong', 'otong@gmail.com', 'f8210b5a6219450b5f0082654fecd92c', '', 'karyawan');
 
 --
 -- Indexes for dumped tables
@@ -136,6 +154,12 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 ALTER TABLE `paket`
  ADD PRIMARY KEY (`id_paket`);
+
+--
+-- Indexes for table `pengeluaran`
+--
+ALTER TABLE `pengeluaran`
+ ADD PRIMARY KEY (`id_pengeluaran`);
 
 --
 -- Indexes for table `pesan`
@@ -163,7 +187,12 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `paket`
 --
 ALTER TABLE `paket`
-MODIFY `id_paket` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `id_paket` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `pengeluaran`
+--
+ALTER TABLE `pengeluaran`
+MODIFY `id_pengeluaran` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `pesan`
 --
@@ -173,7 +202,7 @@ MODIFY `id_email` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-MODIFY `id_transaksi` int(12) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
+MODIFY `id_transaksi` int(12) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=135;
 --
 -- AUTO_INCREMENT for table `user`
 --
