@@ -2,6 +2,7 @@
   error_reporting(E_ALL ^ (E_NOTICE | E_WARNING | E_DEPRECATED));
   session_start();
   include "../../koneksi/session_admin.php";
+  include "../../koneksi/koneksi.php";
   ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +32,6 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
-
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -86,13 +86,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Add User Account</h1>
+            <h1 class="m-0 text-dark">Bayar</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Dashboard</li>
-              <li class="breadcrumb-item active">Add User Account</li>
+              <li class="breadcrumb-item active">Bayar</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -126,52 +126,62 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="row">
-<?php
-include "../../koneksi/koneksi.php";
-$getus   = mysqli_real_escape_string($con,$_GET['id']);
-$sql = mysqli_query($con,"SELECT * FROM user WHERE id_user='$getus'");
-    $r = mysqli_fetch_array($sql);
-    echo "
-    <form action='aksi_update_user.php' name='formku' onSubmit='return valid()' method=POST id='update'>
-    <input type='hidden' name='id_us' value='$r[id_user]' >
-      <fieldset>
-        <div class='form-group'>
-        <label>Nama Lengkap</label>
-          <input id='namalengkap' name='namalengkap' type='text' style='width:100%;' value='$r[nama_lengkap]'> 
-        </div>
-        <div class='form-group'>
-        <label>Username</label>
-          <input id='usern' name='usern' type='text' style='width:100%;' value='$r[username]' disabled> 
-        </div>
-        <div class='form-group'>
-            <label>E-mail</label>
-          <input name='email1' type='email' style='width:100%;' id='email' value='$r[email]'> 
-        </div>
-        <div class='form-group'>
-            <label>Password</label>
-          <input name='passwd' type='password' style='width:100%;' id='password'> 
-        </div>
-        <div class='form-group'>
-            <label>No HP</label>
-          <input name='no_tlp' type='text' style='width:100%;' id='no_telp' value='$r[no_hp]'> 
-        </div>
-        <fieldset class='form-group'>     
-        <label>Level</label>
-        <select class='form-control' id='level' name='level'>
-        <option>$r[level]</option>
-        <option></option>
-        <option>admin</option>
-        <option>karyawan</option>
-        </select>
-        <div class='form-control-position'>
-        <i class='la la-key'></i>
-        </div>
-        </fieldset>
-          <button type='submit' class='btn btn-primary'>Update</button>
-      </fieldset>
-    </form>";   
-?>
-                <!-- /.row -->
+                  <?php
+                  include "../../koneksi/koneksi.php";
+                  $getus   = mysqli_real_escape_string($con,$_GET['id']);
+                  $sql = mysqli_query($con,"SELECT * FROM transaksi WHERE id_transaksi='$getus'");
+                  $r = mysqli_fetch_array($sql);
+                  $id = $r['id_transaksi'];
+                  $kry = $r['nama_lengkap'];
+                  $AN = $r['atas_nama'];
+                  $dws = $r['dewasa'];
+                  $ank = $r['anak'];
+                  $paket = $r['paket'];
+                  $total = $r['total'];
+
+                  ?>
+                  <div style='margin-left: 30%;width: 450px;'>
+                    <form action='aksi_hitung.php' method='POST'>
+                  <table class='table table-striped table-bordered table-hover col-lg-12 col-md-6 col-sm-4 col-xs-6'>
+                    <th colspan='2' style='text-align:center'> Form Bayar Barber Shop ABADI 2 </th>
+                    <tr>
+                      <td><label> Karyawan</label></td>
+                      <td><input type='text'  value='<?= $kry; ?>' style='width: 284px;' disabled></td>
+                      <input type='hidden' name='id_us' value='<?= $id; ?>'>
+                      <input type='hidden' name='status' value='success'>
+                    </tr>
+                    <tr>
+                      <td><label>Atas Nama</label></td>
+                      <td><input type='text' value="<?= $AN; ?>" style='width: 284px;' disabled></td>
+                    </tr>
+                    <tr>
+                      <td><label>Layanan : Potong Rambut</label></td>
+                      <td>
+                        <label>Dewasa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <input type='text' name='dews' value='<?= $dws; ?> Orang' disabled></br>
+                        <label>Anak-Anak &nbsp; </label>
+                        <input type='text' name='nak' value='<?= $ank; ?> Orang' disabled></br>
+
+                    </tr>
+                    <tr>
+                    <td colspan='2'><label>Service</label> : <?php echo $r[paket]; ?> </td>
+                  </tr>
+                  <tr>
+                    <td colspan='2' align='center'><label>Bayar&nbsp;&nbsp;</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='text' value=" " style='width:284px;' name='bayar' onkeypress="return hanyaAngka(event)" id='data1' onkeyup="sum();"> </td>
+                  </tr>
+                    <tr>
+                      <td colspan='2' align='center'><label>Total</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='text' name='' style='width:284px;' value='<?= $total; ?>' id='data2' disabled></td>
+                      <input type="hidden" name="total" value="<?= $total; ?>">
+                    </tr>
+                    <tr>
+                    <td colspan='2' align='center'><label>Kembalian&nbsp;&nbsp;</label><input type='text' value='' id='data3' style='width:284px;' name='kembalian' disabled > </td>
+                    </tr>
+                    <tr>
+                      <td colspan='2'><input type='submit' style='margin-left: 40%;' class='btn btn-primary center-block' name='cetak' value='Cetak'></td>
+                    </tr>
+                  </table>
+                </form>
+                </div>
               </div>
             </div>
             <!-- /.card -->
@@ -199,6 +209,25 @@ $sql = mysqli_query($con,"SELECT * FROM user WHERE id_user='$getus'");
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
+  <script>
+    function hanyaAngka(evt) {
+      var charCode = (evt.which) ? evt.which : event.keyCode
+       if (charCode > 31 && (charCode < 48 || charCode > 57))
+ 
+        return false;
+      return true;
+    }
+  </script>
+
+  <script>
+function sum() {
+      var txtFirstNumberValue = document.getElementById('data1').value;
+      var result = parseInt(txtFirstNumberValue) - parseInt(<?=$total?>);
+      if (!isNaN(result)) {
+         document.getElementById('data3').value = result;
+      }
+}
+</script>
 <!-- jQuery -->
 <script src="../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap -->

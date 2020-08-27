@@ -1,7 +1,8 @@
 <?php
   error_reporting(E_ALL ^ (E_NOTICE | E_WARNING | E_DEPRECATED));
   session_start();
-  include "../../koneksi/session_admin.php";
+  include "../koneksi/session_admin.php";
+  include "../koneksi/koneksi.php";
   ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,13 +87,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Add User Account</h1>
+            <h1 class="m-0 text-dark">Riwayat Transaksi</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Dashboard</li>
-              <li class="breadcrumb-item active">Add User Account</li>
+              <li class="breadcrumb-item active">Riwayat Transaksi</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -117,6 +118,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
+                <td>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -126,51 +128,52 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="row">
+                  <div class="col-lg-12 col-md-10 col-sm-10 col-xs-6">
 <?php
 include "../../koneksi/koneksi.php";
-$getus   = mysqli_real_escape_string($con,$_GET['id']);
-$sql = mysqli_query($con,"SELECT * FROM user WHERE id_user='$getus'");
-    $r = mysqli_fetch_array($sql);
-    echo "
-    <form action='aksi_update_user.php' name='formku' onSubmit='return valid()' method=POST id='update'>
-    <input type='hidden' name='id_us' value='$r[id_user]' >
-      <fieldset>
-        <div class='form-group'>
-        <label>Nama Lengkap</label>
-          <input id='namalengkap' name='namalengkap' type='text' style='width:100%;' value='$r[nama_lengkap]'> 
-        </div>
-        <div class='form-group'>
-        <label>Username</label>
-          <input id='usern' name='usern' type='text' style='width:100%;' value='$r[username]' disabled> 
-        </div>
-        <div class='form-group'>
-            <label>E-mail</label>
-          <input name='email1' type='email' style='width:100%;' id='email' value='$r[email]'> 
-        </div>
-        <div class='form-group'>
-            <label>Password</label>
-          <input name='passwd' type='password' style='width:100%;' id='password'> 
-        </div>
-        <div class='form-group'>
-            <label>No HP</label>
-          <input name='no_tlp' type='text' style='width:100%;' id='no_telp' value='$r[no_hp]'> 
-        </div>
-        <fieldset class='form-group'>     
-        <label>Level</label>
-        <select class='form-control' id='level' name='level'>
-        <option>$r[level]</option>
-        <option></option>
-        <option>admin</option>
-        <option>karyawan</option>
-        </select>
-        <div class='form-control-position'>
-        <i class='la la-key'></i>
-        </div>
-        </fieldset>
-          <button type='submit' class='btn btn-primary'>Update</button>
-      </fieldset>
-    </form>";   
+
+echo "<form action='../print.php' method='GET'>
+<table class='table table-striped table-bordered table-hover col-lg-12 col-md-6 col-sm-4 col-xs-6'>
+        <thead style='text-align:center;'>
+          <tr style='background:#e3e3e3; border:1px solid #cecece;'>
+          <th>No</th>
+          <th>Paket</th>
+          <th>Harga</th>
+          <th>Tanggal</th>
+          <th>Jam</th>
+          <th>Karyawan</th>
+          <th>Atas Nama</th>
+          <th>Total</th>
+          <th>Status</th>
+           <th>Action</th></tr>
+        </thead> ";
+  $tampil = mysqli_query($con,"SELECT * FROM transaksi where status = 'success'");
+    $no=1;
+  function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
+    while ($r=mysqli_fetch_array($tampil)){
+      $tl = $r['total'];
+      $hrg = $r['harga'];
+       echo "<tr>
+                <input type='hidden' name='id_us' value='<?= $r[id_transaksi]; ?>'>
+                <td style='text-align:center;'>$no</td>
+                <td>$r[paket]</td>
+                <td>Rp "; echo rp($hrg); echo"</td>
+                <td style='text-align:center;'>$r[tanggal]</td>
+                <td style='text-align:center;'>$r[jam]</td>
+                <td style='text-align:center;'>$r[nama_lengkap]</td>
+                <td style='text-align:center;'>$r[atas_nama]</td>
+                <td style='text-align:center;'>Rp "; echo rp($tl); echo"</td>
+                <td style='text-align:center;'>$r[status]</td>
+                <td style='text-align:center;'><a class='btn btn-info' title='Cetak' href=/barber/Administrator/keuangan/print.php?id=$r[id_transaksi]><i class='icon-trash icon-white'>Cetak</i></a></center></td>
+             </tr>
+             </form>";
+      $no++;
+    }
+
 ?>
+                    </form>
+                  <!-- /.col -->
+                </div>
                 <!-- /.row -->
               </div>
             </div>
@@ -198,8 +201,6 @@ $sql = mysqli_query($con,"SELECT * FROM user WHERE id_user='$getus'");
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
-<!-- jQuery -->
 <script src="../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

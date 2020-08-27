@@ -33,18 +33,6 @@
       </li>
     </ul>
 
-    <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
-      <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form>
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
@@ -84,91 +72,7 @@
     <div class="sidebar">
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Master
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-          <li class="dropdown-menum">
-            <a href="/barber/Administrator/user/paket.php" class="nav-link">
-              <i class="nav-icon fas fa-box  "></i>
-              <p>
-                Paket
-              </p>
-            </a>
-          </li>
-          <li class="dropdown-menum">
-            <a href="/barber/Administrator/user" class="nav-link">
-              <i class="nav-icon fas fa-user"></i>
-              <p>
-                User
-              </p>
-            </a>
-          </li>
-        </ul>
-        </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon  fas fa-dollar-sign"></i>
-              <p>
-                Keuangan
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="/barber/Administrator/keuangan/transaksi.php" class="nav-link">
-              <i class="nav-icon fas fa-shopping-cart"></i>
-              <p>
-                Transaksi
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/barber/Administrator/keuangan/riwayat_transaksi.php" class="nav-link">
-              <i class="nav-icon fas fa-shopping-cart"></i>
-              <p>
-                Riwayat Transaksi
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/barber/Administrator/inbox.php" class="nav-link">
-              <i class="nav-icon  fas fa-address-card"></i>
-              <p>
-                Gaji
-              </p>
-            </a>
-          </li>
-        </ul>
-        </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                Monitoring
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="/barber/Administrator/inbox.php" class="nav-link">
-              <i class="nav-icon fas fa-book-reader "></i>
-              <p>
-                Laporan Print
-              </p>
-            </a>
-          </li>
-        </ul>
-        </li>
-        </ul>
+<?= include "../pages/menu/menu.php"; ?>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -233,24 +137,35 @@ echo "<table class='table table-striped table-bordered table-hover col-lg-12 col
           <th>No</th>
           <th>Paket</th>
           <th>Harga</th>
-          <th>Tanggal Dan Jam</th>
+          <th>Tanggal</th>
+          <th>Jam</th>
           <th>Karyawan</th>
+          <th>Atas Nama</th>
           <th>Total</th>
           <th >Action</th></tr>
         </thead> ";
-  $tampil = mysqli_query($con,"SELECT * FROM transaksi");
+  $tampil = mysqli_query($con,"SELECT * FROM transaksi order by jam desc");
     $no=1;
   function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
     while ($r=mysqli_fetch_array($tampil)){
       $tl = $r['total'];
+      $hrg = $r['harga'];
        echo "<tr>
                 <td style='text-align:center;'>$no</td>
                 <td>$r[paket]</td>
-                <td>$r[harga]</td>
-                <td style='text-align:center;'>$r[tanggal_jam]</td>
+                <td>Rp "; echo rp($hrg); echo"</td>
+                <td style='text-align:center;'>$r[tanggal]</td>
+                <td style='text-align:center;'>$r[jam]</td>
                 <td style='text-align:center;'>$r[nama_lengkap]</td>
-                <td style='text-align:center;'>"; echo rp($tl); echo"</td>
-                <td style='text-align:center;'><a class='btn btn-info' title='Cetak' href=/barber/Administrator/keuangan/print.php?id=$r[id_transaksi]><i class='icon-trash icon-white'>Cetak</i></a></center></td>
+                <td style='text-align:center;'>$r[atas_nama]</td>
+                <td style='text-align:center;'>Rp "; echo rp($tl); echo "</td>";
+                if($r['status'] == ''){
+                  echo "<td style='text-align:center;'><a class='btn btn-info' title='Bayar' href=/barber/Administrator/keuangan/bayar.php?id=$r[id_transaksi]><i class='icon-trash icon-white'>Bayar</i></a></center></td>";
+                }
+                elseif($r['status'] == 'success'){
+                  echo "<td style='text-align:center;'><a class='btn btn-success' title='Terbayar'><i class='icon-trash icon-white'>Terbayar</i></a></center></td>";
+                }
+                echo "
              </tr>";
       $no++;
     }
@@ -286,8 +201,6 @@ echo "<table class='table table-striped table-bordered table-hover col-lg-12 col
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
-<!-- jQuery -->
 <script src="../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

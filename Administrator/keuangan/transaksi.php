@@ -33,18 +33,6 @@
       </li>
     </ul>
 
-    <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
-      <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form>
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
@@ -84,91 +72,7 @@
     <div class="sidebar">
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Master
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-          <li class="dropdown-menum">
-            <a href="/barber/Administrator/user/paket.php" class="nav-link">
-              <i class="nav-icon fas fa-box  "></i>
-              <p>
-                Paket
-              </p>
-            </a>
-          </li>
-          <li class="dropdown-menum">
-            <a href="/barber/Administrator/user" class="nav-link">
-              <i class="nav-icon fas fa-user"></i>
-              <p>
-                User
-              </p>
-            </a>
-          </li>
-        </ul>
-        </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon  fas fa-dollar-sign"></i>
-              <p>
-                Keuangan
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="/barber/Administrator/keuangan/transaksi.php" class="nav-link">
-              <i class="nav-icon fas fa-shopping-cart"></i>
-              <p>
-                Transaksi
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/barber/Administrator/keuangan/riwayat_transaksi.php" class="nav-link">
-              <i class="nav-icon fas fa-shopping-cart"></i>
-              <p>
-                Riwayat Transaksi
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/barber/Administrator/inbox.php" class="nav-link">
-              <i class="nav-icon  fas fa-address-card"></i>
-              <p>
-                Gaji
-              </p>
-            </a>
-          </li>
-        </ul>
-        </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                Monitoring
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="/barber/Administrator/inbox.php" class="nav-link">
-              <i class="nav-icon fas fa-book-reader "></i>
-              <p>
-                Laporan Print
-              </p>
-            </a>
-          </li>
-        </ul>
-        </li>
-        </ul>
+<?= include "../pages/menu/menu.php"; ?>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -222,44 +126,15 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="row">
-    <table>
-      <tr>
-        <td>
-    <form action="" method="get" name='pktget' onsubmit="return checkform()">
-        <fieldset class="form-group">  
-        <label>Jumlah Paket</label>
-        <input type='text' name='jp' class="form-control">   
-        </fieldset>
-          <button type='submit' class='btn btn-primary' name='ok'>OK</button>
-    </form>
-        </td>
-      </tr>
-      <tr>
-        <td>
-    <form action="" method="POST" onsubmit="return checkform()">
-        <fieldset class="form-group">     
-        <label>Paket</label>
-        <?php
-        if(isset($_GET['jp']) && $_GET['jp'] >0){
-          $jumlah_form = $_GET['jp'];
-        }
-        else{
-          $jumlah_form = 1;
-        }
-
-        for($i=1;$i<=$jumlah_form;$i++){
-        ?>
-        <select class="form-control" name="paket[]">
-        <option>Potong Rambut</option>
-        <option>Kerok Jengot</option>
-        <option>Cat Rambut</option>
-        </select>
-        <?php } ?>
-        </fieldset>
-        <fieldset class="form-group">
-        <label>Karyawan</label>
-        <select class="form-control" name="kry[]">
- <?php 
+                  <div style="margin-left: 30%;width: 450px;">
+                    <form action="aksi_bayar.php" method="POST">
+                  <table class='table table-striped table-bordered table-hover col-lg-12 col-md-6 col-sm-4 col-xs-6'>
+                    <th colspan="2" style="text-align:center"> Form Transaksi Barber Shop ABADI 2 </th>
+                    <tr>
+                      <td><label> Karyawan</label></td>
+                      <td><fieldset class="form-group">
+                        <select name="kry" class="form-control">
+<?php 
   include "../../koneksi/koneksi.php";
   $tampil = mysqli_query($con,"SELECT * FROM user where level='karyawan'");
   while ($r = mysqli_fetch_array($tampil)){
@@ -267,143 +142,48 @@
    <option><?php echo "$r[nama_lengkap]"; ?></option> 
  <?php
   }
+include "../../koneksi/koneksi.php";
+$kry = $_POST['kry'];
+$sql = mysqli_query($con, "SELECT * FROM user where nama_lengkap='$kry'");
+$r = mysqli_fetch_array($sql);
+echo "<input type='hidden' name='id_user' value='$r[id_user]'>";
  ?>
-        </select>        
-        </fieldset>
-          <button type='submit' class='btn btn-primary' name='tambah'>Tambah</button>
-      </fieldset>
-    </form>
-  </td>
-</tr>
-</table>
-<?php /***
-    <form action="" method="post" onsubmit="return checkform()">
-    <fieldset class="form-group">
-      <label>Uang Yang Di Terima</label>
-      <input type='text' name='uang' class="form-control">
-    </br>
-      <button type='submit' class='btn btn-primary' name='tmbuang'>Terima</button>
-    </fieldset>
-    </form>
-        <tr>
-          <td>
-            Di terima
-          </td>
-          <td>
-            <?php
-            if(isset($_POST['tmbuang'])){
-              $ung = $_POST['uang'];
-              echo $ung;
-            }
-            ?>
-          </td>
-        </tr> ***/
+                        </select>
+                      </fieldset></td>
+                    </tr>
+                    <tr>
+                      <td><label>Atas Nama</label></td>
+                      <td><input type="text" name="nama" style="width: 284px;"></td>
+                    </tr>
+                    <tr>
+                      <td><label>Layanan : Potong Rambut</label></td>
+                      <td><input type="checkbox" name="gender" value="dewasa">
+                        <label>Dewasa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <input type="text" name="dews"></br>
+                        <input type="checkbox" name="gender2" value="anak">
+                        <label>Anak-Anak &nbsp; </label>
+                        <input type="text" name="nak"></br>
+                    </tr>
+                    <tr>
+                    <td colspan="2">
+ <?php
+include "../../koneksi/koneksi.php";
+$no = 1;
+$sql = mysqli_query($con, "SELECT * FROM paket where type=''");
+while ($r = mysqli_fetch_array($sql)) {
+      echo "<input type='checkbox' name='paket[]' value='$r[paket]'><label>$r[paket]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>";
+$no++;
+}
+
 ?>
-    <div style="margin-left: auto;">
-      <table class='table table-striped table-bordered table-hover col-lg-12 col-md-10 col-sm-10 col-xs-6'>
-        <thead>
-          <tr>
-            <th colspan="2">
-              <center><strong>HARGA</strong></center>
-            </th>
-          </tr>
-        </thead>
-        <td>
-          <?php
-          if(isset($_POST['tambah'])){
-            $isi = $_POST['paket'];
-  foreach($isi as $key => $val){
-
-  echo $isi[$key].'<br/>';
-
-  }
-        }
-          ?>
-        </td>
-        <td>
-          <?php
-            foreach($isi as $key => $val){
-              for($i=0;$i < count($isi[$key]); $i++){
-              if($isi[$key] == 'Potong Rambut'){
-              $harga = 15000;
-              echo "Rp ".rp($harga).'</br>';
-            }
-            elseif($isi[$key] == 'Kerok Jengot'){
-              $harga = 5000;
-              echo "Rp ".rp($harga).'</br>';
-            }
-            elseif($isi[$key] == 'Cat Rambut'){
-              $harga = 35000;
-              echo "Rp ".rp($harga).'</br>';
-            }$total += $harga;
-          }
-          }
-          ?>
-        </td>
-        <tr>
-          <td>
-            <?php
-function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
-            echo "Total"
-            ?>
-          </td>
-          <td>
-            <?php echo " Rp ". rp($total); ?>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="text-align: center">
-            <?php
-            if(isset($_POST['tambah'])){
-              $kry = $_POST['kry'];
-              foreach ($kry as $key => $value) {
-                echo "Karyawan : ".$kry[$key];
-              }
-            }
-            ?>
-          </td>
-        </tr>
-      </table>
-      <form action="aksi_bayar.php" method="POST">
-        <?php
-        foreach ($isi as $key => $value) {
-        echo "
-        <input type='hidden' name='paket[]' value='$isi[$key]'>";
-      }
-        foreach ($kry as $key => $value) {
-        echo "
-        <input type='hidden' name='kry[]' value='$kry[$key]'>";
-      }
-        foreach($isi as $key => $val){
-          for($i=0;$i < count($isi[$key]); $i++){
-            if($isi[$key] == 'Potong Rambut'){
-              $harga = 15000;
-              echo "<input type='hidden' name='harga[]' value='";echo "Rp ".rp($harga);echo"'>";
-            }
-            elseif($isi[$key] == 'Kerok Jengot'){
-              $harga = 5000;
-              echo "<input type='hidden' name='harga[]' value='";echo "Rp ".rp($harga);echo"'>";
-            }
-            elseif($isi[$key] == 'Cat Rambut'){
-              $harga = 35000;
-              echo "<input type='hidden' name='harga[]' value='";echo "Rp ".rp($harga);echo"'>";
-
-            }
-          }
-          }
-          include "../../koneksi/koneksi.php";
-          $sql = mysqli_query($con, "SELECT * FROM user where nama_lengkap='$kry[0]'");
-          $r = mysqli_fetch_array($sql);
-          echo "<input type='hidden' name='id_user' value='$r[id_user]'>";
-          echo "<input type='hidden' name='total' value='";echo $total;echo"'>";
-        ?>
-            <center>
-            </br>
-              <button type='submit' class='btn btn-primary' name='bayar'>Bayar</button>
-              </center>
-      </form>
-    </div>
-                <!-- /.row -->
+                </td>
+                  </tr>
+                    <tr>
+                      <td colspan="2"><input type="submit" style="margin-left: 40%;" class='btn btn-primary center-block' name="Hitung" value="Hitung"></td>
+                    </tr>
+                  </table>
+                </form>
+                </div>
               </div>
             </div>
             <!-- /.card -->

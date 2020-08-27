@@ -33,18 +33,6 @@
       </li>
     </ul>
 
-    <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
-      <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form>
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
@@ -151,8 +139,10 @@
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">CPU Traffic</span>
-                <span class="info-box-number">
+                <span class="info-box-text">Server</span>
+                <span class="info-box-number"><?php 
+echo $_SERVER['SERVER_NAME'];
+?></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -161,15 +151,18 @@
           <!-- /.col -->
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fas fa-cubes"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Device</span>
+                <span class="info-box-text">Device Name</span>
                 <span class="info-box-number">
-                  <?
-                   $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-                  echo $hostname;
-                  ?>
+<?php
+
+$hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+echo $hostname;
+
+
+?>
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -183,37 +176,17 @@
 
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fas fa-bezier-curve"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">IP Address</span>
                 <span class="info-box-number">
-                  <!--
 <?php
-function getClientIP() {
 
-    if (isset($_SERVER)) {
+$ip=$_SERVER['REMOTE_ADDR'];
+echo $ip;
 
-        if (isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
-            return $_SERVER["HTTP_X_FORWARDED_FOR"];
-
-        if (isset($_SERVER["HTTP_CLIENT_IP"]))
-            return $_SERVER["HTTP_CLIENT_IP"];
-
-        return $_SERVER["REMOTE_ADDR"];
-    }
-
-    if (getenv('HTTP_X_FORWARDED_FOR'))
-        return getenv('HTTP_X_FORWARDED_FOR');
-
-    if (getenv('HTTP_CLIENT_IP'))
-        return getenv('HTTP_CLIENT_IP');
-
-    return getenv('REMOTE_ADDR');
-}
-echo getClientIP();
 ?>
--->
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -228,17 +201,19 @@ echo getClientIP();
               <div class="info-box-content">
                 <span class="info-box-text">Orang Yang Di Service</span>
                 <span class="info-box-number">
-                  <center>
                   <?php
                   include "../koneksi/koneksi.php";
+                  function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
                   $data = $_SESSION['id_user'];
-                  $sql = mysqli_query($con,"SELECT * FROM v_transaksi where id_user = '$data'");
+                  $sql = mysqli_query($con,"SELECT * FROM transaksi where id_user = '$data'");
                   while($r = mysqli_fetch_array($sql)) {
-                    $orang += $r[org];
+                    $harga += $r[total];
+                    $dws = $r[dewasa];
+                    $ank = $r[anak];
+                    $total = $dws + $ank;
                   }
-                  echo $orang;
+                  echo $total." Orang = Rp ".rp($harga);
                   ?>
-                </center>
                 </span>
               </div>
               <!-- /.info-box-content -->

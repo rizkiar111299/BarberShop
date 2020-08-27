@@ -2,6 +2,7 @@
   error_reporting(E_ALL ^ (E_NOTICE | E_WARNING | E_DEPRECATED));
   session_start();
   include "../../koneksi/session_admin.php";
+  include "../../koneksi/koneksi.php";
   ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,7 +73,7 @@
     <div class="sidebar">
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-<?= include "../pages/menu/menu.php"; ?>
+        <?= include "../pages/menu/menu.php"; ?>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -86,13 +87,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Add User Account</h1>
+            <h1 class="m-0 text-dark">Laporan Pengeluaran</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Dashboard</li>
-              <li class="breadcrumb-item active">Add User Account</li>
+              <li class="breadcrumb-item active">Laporan Pengeluarann</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -117,60 +118,81 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
+               <div class="card-tools">
+<form method="POST" class="form-inline" action="">
+<label>Bulan</label>&nbsp;
+<select name="bulan[]" class="form-control">
+<option value="01">Januari</option>
+<option value="02">Februari</option>
+<option value="03">Maret</option>
+<option value="04">April</option>
+<option value="05">Mei</option>
+<option value="06">Juni</option>
+<option value="07">Juli</option>
+<option value="08">Agustus</option>
+<option value="09">September</option>
+<option value="10">Oktober</option>
+<option value="12">November</option>
+<option value="12">Desember</option>
+</select>&nbsp;&nbsp;
+<label>Tahun</label> &nbsp;
+<select name="tahun[]" class="form-control">
+<?php
+$mulai= date('Y') - 50;
+for($i = $mulai;$i<$mulai + 100;$i++){
+    $sel = $i == date('Y') ? ' selected="selected"' : '';
+    echo '<option value="'.$i.'"'.$sel.'>'.$i.'</option>';
+}
+?>
+</select>
+   &nbsp;&nbsp;
+   <button class="btn btn-primary" name="filter" value="filter"><span class="glyphicon glyphicon-search"></span> Search</button>
+ </table>
+  </form>
                 </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="row">
+                  <div class="col-lg-12 col-md-10 col-sm-10 col-xs-6">
 <?php
+if(!empty(($_POST['filter'] == 'filter'))){
 include "../../koneksi/koneksi.php";
-$getus   = mysqli_real_escape_string($con,$_GET['id']);
-$sql = mysqli_query($con,"SELECT * FROM user WHERE id_user='$getus'");
-    $r = mysqli_fetch_array($sql);
+echo "<table class='table table-striped table-bordered table-hover col-lg-12 col-md-6 col-sm-4 col-xs-6'>
+        <thead style='text-align:center;'>
+          <tr style='background:#e3e3e3; border:1px solid #cecece;'>
+          <th>No</th>
+          <th>keterangan</th>
+          <th>Tanggal</th>
+          <th>Jumlah Pengeluaran</th>
+          <th>Pendapatan Bersih</th>
+        </thead> ";
+ $bulan = $_POST['bulan'];
+ $tahun = $_POST['tahun'];
+ $Karyawan = $_POST['kry'];
+ $query = mysqli_query($con, "SELECT* from pengeluaran where  month(tanggal)='$bulan[0]' and year(tanggal) = '$tahun[0]'");
+   function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
+       $no=1;
+    while ($r=mysqli_fetch_array($query)){
+      $tl = $r[''];
+      $hasil += $tl;
+       echo "<tr>
+                <td style='text-align:center;'>$no</td>
+                <td style='text-align:left;'>$r[keterangan]</td>
+                <td style='text-align:center;'>$r[tanggal]</td>
+                <td style='text-align:center;'>$r[jml_pengeluaran]</td>
+                <td style='text-align:center;'>$r[pendapatan]</td>
+             </tr>
+             ";
+      $no++;
+    }
     echo "
-    <form action='aksi_update_user.php' name='formku' onSubmit='return valid()' method=POST id='update'>
-    <input type='hidden' name='id_us' value='$r[id_user]' >
-      <fieldset>
-        <div class='form-group'>
-        <label>Nama Lengkap</label>
-          <input id='namalengkap' name='namalengkap' type='text' style='width:100%;' value='$r[nama_lengkap]'> 
-        </div>
-        <div class='form-group'>
-        <label>Username</label>
-          <input id='usern' name='usern' type='text' style='width:100%;' value='$r[username]' disabled> 
-        </div>
-        <div class='form-group'>
-            <label>E-mail</label>
-          <input name='email1' type='email' style='width:100%;' id='email' value='$r[email]'> 
-        </div>
-        <div class='form-group'>
-            <label>Password</label>
-          <input name='passwd' type='password' style='width:100%;' id='password'> 
-        </div>
-        <div class='form-group'>
-            <label>No HP</label>
-          <input name='no_tlp' type='text' style='width:100%;' id='no_telp' value='$r[no_hp]'> 
-        </div>
-        <fieldset class='form-group'>     
-        <label>Level</label>
-        <select class='form-control' id='level' name='level'>
-        <option>$r[level]</option>
-        <option></option>
-        <option>admin</option>
-        <option>karyawan</option>
-        </select>
-        <div class='form-control-position'>
-        <i class='la la-key'></i>
-        </div>
-        </fieldset>
-          <button type='submit' class='btn btn-primary'>Update</button>
-      </fieldset>
-    </form>";   
-?>
+    </table>";
+?> 
+  </form>
+<?php } ?>
+                  <!-- /.col -->
+                </div>
                 <!-- /.row -->
               </div>
             </div>
@@ -197,10 +219,27 @@ $sql = mysqli_query($con,"SELECT * FROM user WHERE id_user='$getus'");
   </footer>
 </div>
 <!-- ./wrapper -->
+  <script>
+    function hanyaAngka(evt) {
+      var charCode = (evt.which) ? evt.which : event.keyCode
+       if (charCode > 31 && (charCode < 48 || charCode > 57))
+ 
+        return false;
+      return true;
+    }
+  </script>
 
-<!-- REQUIRED SCRIPTS -->
-<!-- jQuery -->
-<script src="../plugins/jquery/jquery.min.js"></script>
+  <script>
+function sum() {
+      var txtFirstNumberValue = document.getElementById('data1').value;
+      var result = parseInt(<?=$hasil?>) - parseInt(txtFirstNumberValue);
+      if (!isNaN(result)) {
+         document.getElementById('data3').value = result;
+      }
+}
+</script>
+
+  <script src="../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- overlayScrollbars -->

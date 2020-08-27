@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <script src="js/Chart.bundle.js"></script>
+  <script src="js/Chart.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -33,17 +35,6 @@
       </li>
     </ul>
 
-    <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
-      <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -84,91 +75,7 @@
     <div class="sidebar">
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Master
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-          <li class="dropdown-menum">
-            <a href="/barber/Administrator/user/paket.php" class="nav-link">
-              <i class="nav-icon fa fa-envelope"></i>
-              <p>
-                Paket
-              </p>
-            </a>
-          </li>
-          <li class="dropdown-menum">
-            <a href="/barber/Administrator/user" class="nav-link">
-              <i class="nav-icon fas fa-user"></i>
-              <p>
-                User
-              </p>
-            </a>
-          </li>
-        </ul>
-        </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon  fas fa-dollar-sign"></i>
-              <p>
-                Keuangan
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="/barber/Administrator/keuangan/transaksi.php" class="nav-link">
-              <i class="nav-icon fas fa-shopping-cart"></i>
-              <p>
-                Transaksi
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/barber/Administrator/keuangan/riwayat_transaksi.php" class="nav-link">
-              <i class="nav-icon fas fa-shopping-cart"></i>
-              <p>
-                Riwayat Transaksi
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/barber/Administrator/inbox.php" class="nav-link">
-              <i class="nav-icon  fas fa-address-card"></i>
-              <p>
-                Gaji
-              </p>
-            </a>
-          </li>
-        </ul>
-        </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                Monitoring
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="/barber/Administrator/inbox.php" class="nav-link">
-              <i class="nav-icon fas fa-book-reader "></i>
-              <p>
-                Laporan Print
-              </p>
-            </a>
-          </li>
-        </ul>
-        </li>
-        </ul>
+<?= include "pages/menu/menu.php"; ?>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -201,83 +108,8 @@
         <!-- Info boxes -->
         <div class="row">
           <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">CPU Traffic</span>
-                <span class="info-box-number">
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Device</span>
-                <span class="info-box-number">
-                  <?
-                   $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-                  echo $hostname;
-                  ?>
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-
-          <!-- fix for small devices only -->
-          <div class="clearfix hidden-md-up"></div>
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">IP Address</span>
-                <span class="info-box-number">
-                  <!--
-<?php
-function getClientIP() {
-
-    if (isset($_SERVER)) {
-
-        if (isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
-            return $_SERVER["HTTP_X_FORWARDED_FOR"];
-
-        if (isset($_SERVER["HTTP_CLIENT_IP"]))
-            return $_SERVER["HTTP_CLIENT_IP"];
-
-        return $_SERVER["REMOTE_ADDR"];
-    }
-
-    if (getenv('HTTP_X_FORWARDED_FOR'))
-        return getenv('HTTP_X_FORWARDED_FOR');
-
-    if (getenv('HTTP_CLIENT_IP'))
-        return getenv('HTTP_CLIENT_IP');
-
-    return getenv('REMOTE_ADDR');
-}
-echo getClientIP();
-?>
--->
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-dollar-sign"></i></span>
+            <div class="info-box" style="width: 415%;">
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-dollar-sign"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Pendapatan</span>
@@ -306,7 +138,7 @@ echo getClientIP();
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h5 class="card-title">Pengumuman</h5>
+                <h5 class="card-title">Chart </h5>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -318,17 +150,9 @@ echo getClientIP();
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-12 col-md-8 col-sm-6">
-                    <p class="text-left">
-                      <strong>Aplikasi Kasir BarberShop <a href="https://github.com/rizkiar111299/BarberShop">V1.2</a></strong>
-                    </p>
-                    <p><b>Feature :</b></p>
-                    <ul>
-                      <li> Tambah/Delete/Lihat paket </li>
-                      <li> Tambah/Delete/Lihat User </li>
-                      <li> Transaksi </li>
-                      <li> Cetak transaksi </li>
-                      <li> Riwayat Transaksi </li>
-                    </ul>
+                    <div style="width: 750px; height: auto;margin-left: 20%;" >
+                    <canvas id="myChart"></canvas>
+                  </div>
                     <!-- /.chart-responsive -->
                   </div>
                   <!-- /.col -->
@@ -362,28 +186,80 @@ echo getClientIP();
 </div>
 <!-- ./wrapper -->
 <!-- REQUIRED SCRIPTS -->
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+  <script>
+    <?php
+    include "../koneksi/koneksi.php";
+    ?>
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ["Dewasa", "Anak - Anak"],
+        datasets: [{
+          label: '',
+          data: [
+          <?php 
+          $dewasa = mysqli_query($con,"select * from transaksi");
+          while ($dws = mysqli_fetch_array($dewasa)){
+            $jumlah += $dws['dewasa'];
+          }
+          echo $jumlah;
+          ?>, 
+          <?php 
+          $anak = mysqli_query($con,"select * from transaksi");
+          while ($ank = mysqli_fetch_array($anak)) {
+            $jumlah2 += $ank['anak'];
+          }
+          echo $jumlah2;
+          ?>
+          ],
+          backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)'
+          ],
+          borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true
+            }
+          }]
+        }
+      }
+    });
+  </script>
+  <script src="../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- overlayScrollbars -->
-<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/adminlte.js"></script>
+<script src="../dist/js/adminlte.js"></script>
 
 <!-- OPTIONAL SCRIPTS -->
-<script src="dist/js/demo.js"></script>
+<script src="../dist/js/demo.js"></script>
 
 <!-- PAGE PLUGINS -->
 <!-- jQuery Mapael -->
-<script src="plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-<script src="plugins/raphael/raphael.min.js"></script>
-<script src="plugins/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="../plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+<script src="../plugins/raphael/raphael.min.js"></script>
+<script src="../plugins/jquery-mapael/jquery.mapael.min.js"></script>
 <script src="plugins/jquery-mapael/maps/usa_states.min.js"></script>
 <!-- ChartJS -->
-<script type="text/javascript" src="plugins/chart.js/Chart.min.js"></script>
+<script src="../plugins/chart.js/Chart.min.js"></script>
 
 <!-- PAGE SCRIPTS -->
-<script src="dist/js/pages/dashboard2.js"></script>
+<script src="../dist/js/pages/dashboard2.js"></script>
 </body>
 </html>

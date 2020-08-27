@@ -46,13 +46,13 @@ if ($cocok > 0){
 	header('location:https://localhost/Barber/Karyawan');
 	}
 else{
-#echo "<script>window.alert('Username atau Password anda salah.');
-			#	window.location='https://localhost/'</script>";
+echo "<script>window.alert('Username atau Password anda salah.');
+				window.location='https://localhost/'</script>";
 	}
 }
 else{
-#echo "<script>window.alert('Username atau Password anda salah.');
-			#	window.location='https://localhost/Login/'</script>";
+echo "<script>window.alert('Username atau Password anda salah.');
+				window.location='https://localhost/'</script>";
 	}
 
 ?>
