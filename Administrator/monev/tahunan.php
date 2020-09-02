@@ -21,7 +21,6 @@
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -33,6 +32,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
+
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -73,7 +73,7 @@
     <div class="sidebar">
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-<?= include "../pages/menu/menu.php"; ?>
+        <?= include "../pages/menu/menu.php"; ?>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -87,13 +87,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Transaksi</h1>
+            <h1 class="m-0 text-dark">Laporan Keuangan Tahunan</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Dashboard</li>
-              <li class="breadcrumb-item active">Transaksi</li>
+              <li class="breadcrumb-item active">Laporan keuangan Tahunan</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -118,73 +118,74 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
+               <div class="card-tools">
+<form method="POST" class="form-inline" action="">
+<label>Tahun</label> &nbsp;
+<select name="tahun[]" class="form-control">
+<?php
+$mulai= date('Y') - 50;
+for($i = $mulai;$i<$mulai + 100;$i++){
+    $sel = $i == date('Y') ? ' selected="selected"' : '';
+    echo '<option value="'.$i.'"'.$sel.'>'.$i.'</option>';
+}
+?>
+</select>
+   &nbsp;&nbsp;
+   <button class="btn btn-primary" name="filter" value="filter"><span class="glyphicon glyphicon-search"></span> Search</button>
+ </table>
+  </form>
                 </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="row">
-                  <div style="margin-left: 30%;width: 450px;">
-                    <form action="aksi_bayar.php" method="POST">
-                  <table class='table table-striped table-bordered table-hover col-lg-12 col-md-6 col-sm-4 col-xs-6'>
-                    <th colspan="2" style="text-align:center"> Form Transaksi Barber Shop ABADI 2 </th>
-                    <tr>
-                      <td><label> Karyawan</label></td>
-                      <td><fieldset class="form-group">
-                        <select name="kry" class="form-control">
-<?php 
-  include "../../koneksi/koneksi.php";
-  $tampil = mysqli_query($con,"SELECT * FROM user where level='karyawan'");
-  while ($r = mysqli_fetch_array($tampil)){
- ?>
-   <option><?php echo "$r[nama_lengkap]"; ?></option> 
- <?php
-  }
+                  <div class="col-lg-12 col-md-10 col-sm-10 col-xs-6">
+<?php
+if(!empty(($_POST['filter'] == 'filter'))){
 include "../../koneksi/koneksi.php";
-$kry = $_POST['kry'];
-$sql = mysqli_query($con, "SELECT * FROM user where nama_lengkap='$kry'");
-$r = mysqli_fetch_array($sql);
-echo "<input type='hidden' name='id_user' value='$r[id_user]'>";
- ?>
-                        </select>
-                      </fieldset></td>
-                    </tr>
-                    <tr>
-                      <td><label>Atas Nama</label></td>
-                      <td><input type="text" name="nama" style="width: 284px;"></td>
-                    </tr>
-                    <tr>
-                      <td><label>Layanan : Potong Rambut</label></td>
-                      <td><input type="checkbox" name="gender" value="dewasa">
-                        <label>Dewasa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                        <input type="text" name="dews" onkeypress="return hanyaAngka(event)"></br>
-                        <input type="checkbox" name="gender2" value="anak">
-                        <label>Anak-Anak &nbsp; </label>
-                        <input type="text" name="nak" onkeypress="return hanyaAngka(event)"></br>
-                    </tr>
-                    <tr>
-                    <td colspan="2">
- <?php
-include "../../koneksi/koneksi.php";
-$no = 1;
-$sql = mysqli_query($con, "SELECT * FROM paket where type=''");
-while ($r = mysqli_fetch_array($sql)) {
-      echo "<input type='checkbox' name='paket[]' value='$r[paket]'><label>$r[paket]&nbsp;&nbsp;&nbsp;</label>";
-$no++;
-}
-
-?>
-                </td>
-                  </tr>
-                    <tr>
-                      <td colspan="2"><input type="submit" style="margin-left: 40%;" class='btn btn-primary center-block' name="Hitung" value="Hitung"></td>
-                    </tr>
-                  </table>
-                </form>
+echo "<table class='table table-striped table-bordered table-hover col-lg-12 col-md-6 col-sm-4 col-xs-6'>
+        <thead style='text-align:center;'>
+          <tr style='background:#e3e3e3; border:1px solid #cecece;'>
+          <th>No</th>
+          <th>Karyawan</th>
+          <th>Tanggal</th>
+          <th>Jam</th>
+          <th>Pendapatan</th>
+        </thead> ";
+ $bulan = $_POST['bulan'];
+ $tahun = $_POST['tahun'];
+ $Karyawan = $_POST['kry'];
+ $query = mysqli_query($con, "SELECT* from transaksi where year(tanggal) = '$tahun[0]'");
+   function rp($angka){ $angka = number_format($angka); $angka = str_replace(',', '.', $angka); $angka ="$angka"; return $angka;}
+       $no=1;
+    while ($r=mysqli_fetch_array($query)){
+      $tl = $r['total'];
+      $hasil += $tl;
+       echo "<tr>
+                <td style='text-align:center;'>$no</td>
+                <td style='text-align:center;'>$r[nama_lengkap]</td>
+                <td style='text-align:center;'>$r[tanggal]</td>
+                <td style='text-align:center;'>$r[jam]</td>
+                <td style='text-align:center;'>"; echo rp($tl); echo "</td>
+             </tr>
+             ";
+      $no++;
+    }
+    echo "<tr>
+    <td colspan='4' style='text-align:right;'>
+    <label>Total</label></br>
+    </td>
+    <td style='text-align:center;'>";
+    ?>
+    <input type="text" value="Rp <?= rp($hasil); ?>" style='width:284px;' disabled></br>
+    <?php echo "</td>
+    </tr>
+    </table>";
+?> 
+<?php } ?>
+                  <!-- /.col -->
                 </div>
+                <!-- /.row -->
               </div>
             </div>
             <!-- /.card -->
@@ -210,9 +211,6 @@ $no++;
   </footer>
 </div>
 <!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-
   <script>
     function hanyaAngka(evt) {
       var charCode = (evt.which) ? evt.which : event.keyCode
@@ -222,8 +220,18 @@ $no++;
       return true;
     }
   </script>
-<!-- jQuery -->
-<script src="../plugins/jquery/jquery.min.js"></script>
+
+  <script>
+function sum() {
+      var txtFirstNumberValue = document.getElementById('data1').value;
+      var result = parseInt(<?=$hasil?>) - parseInt(txtFirstNumberValue);
+      if (!isNaN(result)) {
+         document.getElementById('data3').value = result;
+      }
+}
+</script>
+
+  <script src="../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- overlayScrollbars -->

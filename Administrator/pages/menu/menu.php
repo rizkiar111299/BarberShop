@@ -87,7 +87,17 @@
             <a href='/barber/Administrator/monev/keu.php' class='nav-link'>
               <i class='nav-icon fas fa-book-reader '></i>
               <p>
-                Laporan Keungan
+                Laporan Keungan Bulanan
+              </p>
+            </a>
+          </li>
+        </ul>
+            <ul class='nav nav-treeview'>
+          <li class='nav-item'>
+            <a href='/barber/Administrator/monev/tahunan.php' class='nav-link'>
+              <i class='nav-icon fas fa-book-reader '></i>
+              <p>
+                Laporan Keungan Tahunan
               </p>
             </a>
           </li>
